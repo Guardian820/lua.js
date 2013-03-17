@@ -97,7 +97,8 @@
 script
   : indent chunk unindent EOF {
     return "var tmp;\n" +
-      "var G = lua_newtable2(lua_core);\n" +
+      "if( G == undefined ) {\n" +
+      "G = lua_newtable2(lua_core);\n" +
       "for (var i in lua_libs) {\n" +
       "  G.str[i] = lua_newtable2(lua_libs[i]);\n" +
       "}\n" +
@@ -115,6 +116,7 @@ script
       "  }\n" +
       "  module.metatable.str['__index'] = G;\n" +
       "};\n" +
+      "}\n" +
       "{\n" +
       $2.simple_form + "\n" +
       "};\n" +
